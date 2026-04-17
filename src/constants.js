@@ -8,7 +8,7 @@ export const SYMBOL_POOL = [
   { id: 'Audifonos',     img: '/Audifonos.png' },
   { id: 'Bocinas',     img: '/Bocinas.png' },
   { id: 'CPU',     img: '/CPU.png' },
-  { id: 'Escritorio',     img: '/Escritorio .png' },
+  { id: 'Escritorio',     img: '/Escritorio.png' },
   { id: 'Silla',     img: '/Silla.png' },
   { id: 'Teclado',     img: '/Teclado.png' },
   { id: 'Monitor',     img: '/Monitor.png' },
