@@ -27,7 +27,7 @@ export function StatsScreen({ completedGames, onBack, lang }) {
       {completedGames.length === 0 ? (
         <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center">
           <Trophy size={48} className="text-outline opacity-50" />
-          <p className="text-outline text-lg">{tx.noGamesYet}</p>
+          <p className="text-outline text-lg">{tx.noGamesPlayedYet}</p>
         </div>
       ) : (
         <div className="w-full space-y-3">

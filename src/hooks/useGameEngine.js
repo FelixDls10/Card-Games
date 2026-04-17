@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import { SYMBOL_POOL, DIFFICULTY_CONFIG } from '../constants';
 
 function shuffle(arr) {
@@ -110,15 +110,20 @@ function reducer(state, action) {
 export function useGameEngine() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Only unflip after a mismatch (when the board is locked with 2 cards flipped)
+  useEffect(() => {
+    if (state.locked && state.flipped.length === 2) {
+      const id = setTimeout(() => dispatch({ type: 'UNFLIP' }), 1000);
+      return () => clearTimeout(id);
+    }
+  }, [state.locked, state.flipped]);
+
   const startGame = useCallback((difficulty) => {
     dispatch({ type: 'START', difficulty });
   }, []);
 
   const flipCard = useCallback((uid) => {
     dispatch({ type: 'FLIP', uid });
-    setTimeout(() => {
-      dispatch({ type: 'UNFLIP' });
-    }, 900);
   }, []);
 
   const pause  = useCallback(() => dispatch({ type: 'PAUSE' }),  []);

@@ -5,9 +5,9 @@ export function Header({ screen, sessionId, onPause, isDark, toggleTheme, lang, 
   const tx = t[lang];
 
   return (
-    <header className="fixed top-0 right-0 w-full md:w-[calc(100%-300px)] h-16 glass-panel flex items-center justify-between px-4 md:px-8 z-40 !border-t-0 !border-x-0 !rounded-none">
+    <header className="fixed top-0 right-0 w-full md:w-[calc(100%-300px)] h-16 glass-panel flex items-center justify-between px-4 md:px-8 z-40 border-t-0! border-x-0! rounded-none!">
       <div className="flex items-center gap-2 md:gap-4 truncate">
-        <LayoutGrid size={20} className="md:hidden text-primary flex-shrink-0" />
+        <LayoutGrid size={20} className="md:hidden text-primary shrink-0" />
         <span className="text-base md:text-[1.1rem] font-bold text-on-surface tracking-tight truncate">{tx.appTitle}</span>
         {screen === 'PLAYING' && (
           <>

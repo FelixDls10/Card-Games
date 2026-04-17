@@ -13,9 +13,9 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-[300px] bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 hidden md:flex flex-col py-8 px-6 overflow-y-auto z-50">
+    <aside className="fixed left-0 top-0 h-full w-75 bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 hidden md:flex flex-col py-8 px-6 overflow-y-auto z-50">
       <div className="mb-12 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-blue-600 shadow-lg shadow-primary/20 flex items-center justify-center text-white">
+        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary to-blue-600 shadow-lg shadow-primary/20 flex items-center justify-center text-white">
           <Compass size={20} />
         </div>
         <div>
@@ -67,11 +67,11 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
         <nav className="flex-1 space-y-1">
           <button onClick={onHomeClick} className="w-full flex items-center gap-4 py-3 px-4 text-outline hover:text-on-surface hover:bg-surface-container-high/50 rounded-xl transition-colors">
             <BarChart2 size={18} />
-            <span className="text-[11px] uppercase tracking-[0.1em]">{tx.home}</span>
+            <span className="text-[11px] uppercase tracking-widest">{tx.home}</span>
           </button>
           <button onClick={onStatsClick} className="w-full flex items-center gap-4 py-3 px-4 text-outline hover:text-on-surface hover:bg-surface-container-high/50 rounded-xl transition-colors">
             <TrendingUp size={18} />
-            <span className="text-[11px] uppercase tracking-[0.1em]">{tx.gameStats}</span>
+            <span className="text-[11px] uppercase tracking-widest">{tx.gameStats}</span>
           </button>
         </nav>
       )}
@@ -79,7 +79,7 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
       <div className="mt-auto space-y-4 border-t border-outline-variant/30 pt-8">
         {screen === 'HOME' && (
           <button onClick={onNewGame} className="relative w-full overflow-hidden rounded-xl group active:scale-95 transition-all">
-            <div className="absolute inset-0 bg-gradient-to-r from-accent to-orange-500 group-hover:opacity-90 transition-opacity" />
+            <div className="absolute inset-0 bg-linear-to-r from-accent to-orange-500 group-hover:opacity-90 transition-opacity" />
             <div className="relative z-10 py-4 px-6 flex items-center justify-center gap-2 text-white font-bold text-sm tracking-widest uppercase">
               <span>{tx.newGame}</span>
               <ArrowRight size={18} />

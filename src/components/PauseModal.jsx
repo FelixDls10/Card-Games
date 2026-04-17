@@ -4,8 +4,8 @@ import { t } from '../i18n.js';
 export function PauseModal({ onResume, onRestart, onChangeDifficulty, onExit, lang }) {
   const tx = t[lang];
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-surface/80 backdrop-blur-md p-6">
-      <div className="w-full max-w-sm bg-surface-container-lowest rounded-[2rem] shadow-[0px_24px_48px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col border border-outline-variant/20">
+    <div className="fixed inset-0 z-60 flex items-center justify-center bg-surface/80 backdrop-blur-md p-6">
+      <div className="w-full max-w-sm bg-surface-container-lowest rounded-4xl shadow-[0px_24px_48px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col border border-outline-variant/20">
         <div className="pt-10 pb-6 px-8 text-center">
           <div className="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
             <Pause size={28} className="text-primary" />

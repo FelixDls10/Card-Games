@@ -71,7 +71,7 @@ export default function App() {
           setLang={setLang}
         />
 
-        <div className="flex-1 flex flex-col md:ml-[300px] min-h-screen pt-16">
+        <div className="flex-1 flex flex-col md:ml-75 min-h-screen pt-16">
           {screen === 'HOME' && (
             <HomeScreen
               onStart={startGame}
