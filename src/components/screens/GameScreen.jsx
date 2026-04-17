@@ -48,7 +48,7 @@ export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
 
   return (
     <main className="flex-1 w-full max-w-4xl mx-auto flex flex-col items-center px-4 sm:px-6 py-8 md:py-12 mb-24 md:mb-0 relative">
-      <div className="w-full flex justify-between items-end mb-8 md:hidden">
+      <div className="w-full flex justify-between items-end mb-4 md:mb-8 md:hidden">
         <div>
           <span className="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-2 inline-block">
             {diffLabel} {tx.difficultyLabel}
@@ -61,21 +61,21 @@ export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
         </div>
       </div>
 
-      <div className="md:hidden grid grid-cols-3 gap-3 mb-8 w-full max-w-md">
+      <div className="md:hidden grid grid-cols-3 gap-2 mb-4 md:mb-8 w-full max-w-md">
         {[
           { label: tx.timeElapsed, value: fmt(seconds) },
           { label: tx.moves,       value: state.moves },
           { label: tx.pairs,       value: `${state.pairsFound}/${DIFFICULTY_CONFIG[difficulty]?.pairs}` },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-surface-container-high p-4 rounded-xl flex flex-col items-center justify-center">
+          <div key={label} className="bg-surface-container-high p-3 rounded-xl flex flex-col items-center justify-center">
             <span className="text-[10px] uppercase tracking-widest text-outline font-bold mb-1">{label}</span>
             <span className="text-xl font-bold font-mono">{value}</span>
           </div>
         ))}
       </div>
 
-      <div className="w-full glass-panel p-4 sm:p-6 md:p-10 rounded-3xl flex items-center justify-center min-h-100 mb-8 md:mb-0">
-        <div className={`grid ${gridClass} gap-4 md:gap-6 w-full max-w-225 mx-auto`}>
+      <div className="w-full glass-panel p-3 sm:p-6 md:p-10 rounded-2xl flex items-center justify-center mb-8 md:mb-0">
+        <div className={`grid ${gridClass} gap-2 sm:gap-4 md:gap-6 w-full max-w-225 mx-auto`}>
           {state.cards.map((card) => {
             const isVisible = card.state === 'flipped' || card.state === 'matched' || card.state === 'incorrect';
             const isMatched  = card.state === 'matched';
@@ -86,7 +86,7 @@ export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
                 key={card.uid}
                 disabled={state.locked || card.state !== 'hidden'}
                 onClick={() => !state.locked && flipCard(card.uid)}
-                className={`aspect-square sm:min-h-35 md:min-h-45 rounded-2xl transition-all duration-300 relative overflow-hidden group
+                className={`aspect-square sm:min-h-35 md:min-h-45 rounded-xl sm:rounded-2xl transition-all duration-300 relative overflow-hidden group
                   ${isMatched
                     ? 'bg-linear-to-br from-accent to-orange-600 shadow-lg shadow-accent/20 ring-1 ring-white/20'
                     : isFlipped

@@ -16,6 +16,7 @@ export default function App() {
   const [isDark, setIsDark]       = useState(false);
   const [lang, setLang]           = useState('es');
   const [completedGames, setCompletedGames] = useState([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDark);
@@ -53,13 +54,18 @@ export default function App() {
         <Sidebar
           completedGames={completedGames}
           screen={screen}
-          onNewGame={startGame}
-          onStatsClick={() => setScreen('STATS')}
-          onHomeClick={() => setScreen('HOME')}
-          onExit={() => setScreen('HOME')}
+          onNewGame={() => { startGame(); setIsMobileMenuOpen(false); }}
+          onStatsClick={() => { setScreen('STATS'); setIsMobileMenuOpen(false); }}
+          onHomeClick={() => { setScreen('HOME'); setIsMobileMenuOpen(false); }}
+          onExit={() => { setScreen('HOME'); setIsMobileMenuOpen(false); }}
           metrics={metrics}
           difficulty={difficulty}
           lang={lang}
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+          isDark={isDark}
+          toggleTheme={() => setIsDark(d => !d)}
+          setLang={setLang}
         />
         <Header
           screen={screen}
@@ -69,9 +75,10 @@ export default function App() {
           toggleTheme={() => setIsDark(d => !d)}
           lang={lang}
           setLang={setLang}
+          onMenuClick={() => setIsMobileMenuOpen(true)}
         />
 
-        <div className="flex-1 flex flex-col md:ml-75 min-h-screen pt-16">
+        <div className="flex-1 flex flex-col md:ml-75 min-h-screen pt-16 pb-24 md:pb-0">
           {screen === 'HOME' && (
             <HomeScreen
               onStart={startGame}
@@ -118,7 +125,14 @@ export default function App() {
         />
       )}
 
-      <BottomNav lang={lang} />
+      <BottomNav 
+        lang={lang} 
+        screen={screen}
+        onPlay={() => setScreen('HOME')}
+        onStats={() => setScreen('STATS')}
+        onSettings={() => setIsMobileMenuOpen(true)}
+        isMenuOpen={isMobileMenuOpen}
+      />
     </div>
   );
 }

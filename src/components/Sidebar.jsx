@@ -1,10 +1,11 @@
 import {
   Compass, BarChart2, TrendingUp, Settings,
-  ArrowRight, LogOut, Clock, MousePointerClick, Trophy
+  ArrowRight, LogOut, Clock, MousePointerClick, Trophy, X,
+  Sun, Moon, User
 } from 'lucide-react';
 import { t } from '../i18n.js';
 
-export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, metrics, difficulty, lang }) {
+export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, metrics, difficulty, lang, isOpen, onClose, isDark, toggleTheme, setLang }) {
   const tx = t[lang];
   const isPlaying = screen === 'PLAYING' || screen === 'PAUSED';
   const diffLabel = difficulty === 'EASY' ? tx.easy : difficulty === 'MEDIUM' ? tx.medium : tx.hard;
@@ -13,7 +14,15 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
     `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-75 bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 hidden md:flex flex-col py-8 px-6 overflow-y-auto z-50">
+    <>
+      {/* Backdrop for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-[55] md:hidden transition-opacity"
+          onClick={onClose}
+        />
+      )}
+      <aside className={`fixed left-0 top-0 h-full w-75 bg-surface-container-lowest/95 md:bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 flex flex-col py-8 px-6 overflow-y-auto z-[60] transition-transform duration-300 md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="mb-12 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary to-blue-600 shadow-lg shadow-primary/20 flex items-center justify-center text-white">
           <Compass size={20} />
@@ -76,7 +85,30 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
         </nav>
       )}
 
-      <div className="mt-auto space-y-4 border-t border-outline-variant/30 pt-8">
+      {/* Mobile-only settings (Language, Theme, User) */}
+      <div className="md:hidden mt-auto mb-6 pt-6 border-t border-outline-variant/30 flex items-center justify-between text-outline gap-2">
+        <div className="flex gap-2">
+          <button
+            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+            className="h-10 px-4 hover:text-primary hover:bg-surface-container/50 rounded-full flex items-center justify-center active:scale-95 transition-all text-sm font-bold tracking-widest bg-surface-container/30"
+          >
+            {lang.toUpperCase()}
+          </button>
+          <button
+            onClick={toggleTheme}
+            className="w-10 h-10 hover:text-primary hover:bg-surface-container/50 rounded-full flex items-center justify-center active:scale-95 transition-all bg-surface-container/30"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+        </div>
+        {(screen === 'PLAYING' || screen === 'HOME') && (
+          <div className="h-10 w-10 rounded-full bg-blue-600 text-white flex items-center justify-center ring-2 ring-primary/20">
+            <User size={18} />
+          </div>
+        )}
+      </div>
+
+      <div className="md:mt-auto space-y-4 border-t border-outline-variant/30 pt-6 md:pt-8">
         {screen === 'HOME' && (
           <button onClick={onNewGame} className="relative w-full overflow-hidden rounded-xl group active:scale-95 transition-all">
             <div className="absolute inset-0 bg-linear-to-r from-accent to-orange-500 group-hover:opacity-90 transition-opacity" />
@@ -94,5 +126,6 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
         )}
       </div>
     </aside>
+    </>
   );
 }
