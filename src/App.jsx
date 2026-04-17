@@ -55,6 +55,7 @@ export default function App() {
           screen={screen}
           onNewGame={startGame}
           onStatsClick={() => setScreen('STATS')}
+          onHomeClick={() => setScreen('HOME')}
           onExit={() => setScreen('HOME')}
           metrics={metrics}
           difficulty={difficulty}
