@@ -130,7 +130,7 @@ export default function App() {
         screen={screen}
         onPlay={() => setScreen('HOME')}
         onStats={() => setScreen('STATS')}
-        onSettings={() => setIsMobileMenuOpen(true)}
+       /*onSettings={() => setIsMobileMenuOpen(true)} */
         isMenuOpen={isMobileMenuOpen}
       />
     </div>

@@ -78,8 +78,8 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
           onClick={onHomeClick} 
           className={`w-full flex items-center gap-4 py-3 px-4 rounded-xl transition-colors font-semibold ${
             screen === 'HOME' 
-              ? 'bg-primary/20 text-primary' 
-              : 'text-outline hover:text-on-surface hover:bg-surface-container-high/50'
+          ? 'bg-primary text-white shadow-lg scale-[1.02]' 
+          : 'text-outline hover:text-on-surface hover:bg-surface-container-high/50'
           }`}
         >
           <BarChart2 size={18} />
@@ -89,7 +89,7 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
           onClick={onStatsClick} 
           className={`w-full flex items-center gap-4 py-3 px-4 rounded-xl transition-colors font-semibold ${
             screen === 'STATS' 
-              ? 'bg-primary/20 text-primary' 
+              ? 'bg-primary text-white shadow-md' 
               : 'text-outline hover:text-on-surface hover:bg-surface-container-high/50'
           }`}
         >
