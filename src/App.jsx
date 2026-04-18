@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useSound } from './hooks/useSound.jsx';
+import { t } from './i18n.js';
 import { Sidebar } from './components/Sidebar.jsx';
 import { Header } from './components/Header.jsx';
 import { BottomNav } from './components/BottomNav.jsx';
@@ -17,10 +19,16 @@ export default function App() {
   const [lang, setLang]           = useState('es');
   const [completedGames, setCompletedGames] = useState([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { announce } = useSound();
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDark);
   }, [isDark]);
+
+  useEffect(() => {
+    if (screen === 'PAUSED') announce(t[lang].a11yPaused);
+    else if (screen === 'PLAYING') announce(t[lang].a11yResumed);
+  }, [screen]);
 
   const startGame = () => {
     setSessionId(`ARCH-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`);

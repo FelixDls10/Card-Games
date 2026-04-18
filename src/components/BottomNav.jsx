@@ -25,8 +25,8 @@ export function BottomNav({ lang, screen, onPlay, onStats, onSettings, isMenuOpe
           <span className="text-[10px] font-bold tracking-[0.05em] uppercase mt-1">{tx.gameStats.substring(0, 5)}</span>
         </button>
 
-        
-       {/* <button 
+
+       {/* <button
           onClick={onSettings}
           className="flex flex-col items-center justify-center text-outline hover:text-primary transition-all active:opacity-80"
         >

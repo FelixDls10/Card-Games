@@ -18,11 +18,11 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
       {/* Backdrop for mobile */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-[55] md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/50 z-55 md:hidden transition-opacity"
           onClick={onClose}
         />
       )}
-      <aside className={`fixed left-0 top-0 h-full w-75 bg-surface-container-lowest/95 md:bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 flex flex-col py-8 px-6 overflow-y-auto z-[60] transition-transform duration-300 md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed left-0 top-0 h-full w-75 bg-surface-container-lowest/95 md:bg-surface-container-lowest/40 backdrop-blur-3xl border-r border-outline-variant/20 flex flex-col py-8 px-6 overflow-y-auto z-60 transition-transform duration-300 md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="mb-12 flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-linear-to-br from-primary to-blue-600 shadow-lg shadow-primary/20 flex items-center justify-center text-white">
           <Compass size={20} />
@@ -122,7 +122,8 @@ export function Sidebar({ screen, onNewGame, onStatsClick, onExit, onHomeClick, 
         )}
       </div>
 
-      <div className="md:mt-auto space-y-4 border-t border-outline-variant/30 pt-6 md:pt-8">
+
+      <div className="md:space-y-4 border-t border-outline-variant/30 pt-6 md:pt-6">
         {screen === 'HOME' && (
           <button onClick={onNewGame} className="relative w-full overflow-hidden rounded-xl group active:scale-95 transition-all">
             <div className="absolute inset-0 bg-linear-to-r from-accent to-orange-500 group-hover:opacity-90 transition-opacity" />

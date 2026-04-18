@@ -2,21 +2,47 @@ import { useEffect, useRef } from 'react';
 import { Lightbulb, Compass } from 'lucide-react';
 import { useGameEngine } from '../../hooks/useGameEngine.js';
 import { useTimer } from '../../hooks/useTimer.js';
+import { useSound } from '../../hooks/useSound.jsx';
 import { DIFFICULTY_CONFIG } from '../../constants.js';
 import { t } from '../../i18n.js';
+
+const fmtStr = (s, vars) => Object.entries(vars || {}).reduce((acc, [k, v]) => acc.replaceAll(`{${k}}`, v), s);
 
 const COLS_MAP = { 3: 'grid-cols-3', 4: 'grid-cols-4', 5: 'grid-cols-5' };
 
 export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
   const tx = t[lang];
   const { state, startGame, flipCard } = useGameEngine();
+  const { play, announce } = useSound();
   const isPlaying = state.status === 'playing';
   const { seconds, reset: resetTimer } = useTimer(isPlaying);
 
   useEffect(() => {
     startGame(difficulty);
     resetTimer();
+    const level = difficulty === 'EASY' ? tx.easy : difficulty === 'MEDIUM' ? tx.medium : tx.hard;
+    announce(fmtStr(tx.a11yGameStart, { level }));
   }, [difficulty]);
+
+  const prevPairsRef = useRef(0);
+  useEffect(() => {
+    if (state.pairsFound > prevPairsRef.current) {
+      const lastMatched = [...state.cards].reverse().find(c => c.state === 'matched');
+      const name = lastMatched?.symbolId ?? '';
+      play('correct');
+      announce(fmtStr(tx.a11yMatch, { name }));
+    }
+    prevPairsRef.current = state.pairsFound;
+  }, [state.pairsFound]);
+
+  const prevLockedRef = useRef(false);
+  useEffect(() => {
+    if (state.locked && !prevLockedRef.current && state.flipped.length === 2) {
+      play('wrong');
+      announce(tx.a11yMismatch);
+    }
+    prevLockedRef.current = state.locked;
+  }, [state.locked, state.flipped.length]);
 
   useEffect(() => {
     onMetricsChange({
@@ -31,6 +57,7 @@ export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
   useEffect(() => {
     if (state.status === 'completed' && !completedRef.current) {
       completedRef.current = true;
+      announce(fmtStr(tx.a11yVictory, { pairs: state.pairsFound, moves: state.moves }));
       setTimeout(() => {
         onVictory({ timeElapsed: seconds, moves: state.moves, pairsFound: state.pairsFound });
       }, 600);
@@ -76,16 +103,22 @@ export function GameScreen({ difficulty, onVictory, onMetricsChange, lang }) {
 
       <div className="w-full glass-panel p-3 sm:p-6 md:p-10 rounded-2xl flex items-center justify-center mb-8 md:mb-0">
         <div className={`grid ${gridClass} gap-2 sm:gap-4 md:gap-6 w-full max-w-225 mx-auto`}>
-          {state.cards.map((card) => {
+          {state.cards.map((card, idx) => {
             const isVisible = card.state === 'flipped' || card.state === 'matched' || card.state === 'incorrect';
             const isMatched  = card.state === 'matched';
             const isFlipped  = card.state === 'flipped' || card.state === 'incorrect';
+            const ariaLabel = isVisible
+              ? fmtStr(tx.a11yCardRevealed, { n: idx + 1, name: card.symbolId })
+              : fmtStr(tx.a11yCardHidden, { n: idx + 1 });
 
             return (
               <button
                 key={card.uid}
                 disabled={state.locked || card.state !== 'hidden'}
                 onClick={() => !state.locked && flipCard(card.uid)}
+                aria-label={ariaLabel}
+                aria-pressed={isVisible}
+                aria-disabled={state.locked || card.state !== 'hidden'}
                 className={`aspect-square sm:min-h-35 md:min-h-45 rounded-xl sm:rounded-2xl transition-all duration-300 relative overflow-hidden group
                   ${isMatched
                     ? 'bg-linear-to-br from-accent to-orange-600 shadow-lg shadow-accent/20 ring-1 ring-white/20'
